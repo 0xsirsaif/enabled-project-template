@@ -4,7 +4,7 @@ import importlib
 
 
 def load_app():
-    for path in Path("../../../apps").iterdir():
+    for path in Path("../../..").iterdir():
         if path.is_dir():
             try:
                 plugin = importlib.import_module(f"apps.{path.name}.main")
