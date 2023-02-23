@@ -1,14 +1,17 @@
-from main import app
 from pathlib import Path
 import importlib
+from core.backend.src.main import app as core_app
 
 
 def load_app():
-    for path in Path("../../..").iterdir():
-        if path.is_dir():
+    apps = []
+    for app in Path("apps").iterdir():
+        if app.is_dir() and app.name not in ["core"]:
             try:
-                plugin = importlib.import_module(f"apps.{path.name}.main")
-                app.include_router(plugin.router, prefix=f"/{path.name}")
-                print(f"Loaded app: {path.name} \u2713")
+                app = importlib.import_module(f"apps.{app.name}.backend.src.app")
+                apps.append(app)
             except ModuleNotFoundError:
                 pass
+
+    for app in apps:
+        core_app.include_router(app.app)

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from core.backend.src.apps_loader import load_app
 
 app = FastAPI()
 
@@ -11,6 +11,5 @@ def read_root():
 
 @app.on_event("startup")
 async def startup_event():
-    from apps_loader import load_app
     print("Loading apps...")
     load_app()
