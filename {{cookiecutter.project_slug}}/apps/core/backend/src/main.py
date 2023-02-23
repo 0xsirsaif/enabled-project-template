@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from core.backend.src.apps_loader import load_app
+from core.backend.src.apps_loader import get_sub_apps
+
 
 app = FastAPI()
 
@@ -12,4 +13,7 @@ def read_root():
 @app.on_event("startup")
 async def startup_event():
     print("Loading apps...")
-    load_app()
+    apps = get_sub_apps()
+    # include sub-apps routes
+    for sub_app in apps:
+        app.include_router(sub_app.app)
