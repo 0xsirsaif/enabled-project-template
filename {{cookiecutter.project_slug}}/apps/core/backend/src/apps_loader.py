@@ -9,6 +9,7 @@ def get_sub_apps():
             try:
                 app = importlib.import_module(f"{app.name}.backend.src.app")
                 apps.append(app)
-            except ModuleNotFoundError:
+            except ModuleNotFoundError as e:
+                print(f"ModuleNotFoundError: {e}")
                 pass
     return apps
